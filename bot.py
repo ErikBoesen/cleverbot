@@ -9,6 +9,8 @@ app = Flask(__name__)
 bot = mebots.Bot('your_bot_shortname_here', os.environ.get('BOT_TOKEN'))
 
 class CleverBot:
+    _API_ROOT = "https://cleverbot.io/1.0/"
+
     def __init__(self, user, key, group_id):
         self.user = user
         self.key = key
@@ -19,7 +21,7 @@ class CleverBot:
             "key": key,
             "nick": self.nick
         }
-        requests.post("https://cleverbot.io/1.0/create", data=body)
+        requests.post(self._API_ROOT + "create", data=body)
 
     def query(self, text):
         body = {
@@ -29,7 +31,7 @@ class CleverBot:
             "text": text
         }
 
-        r = requests.post("https://cleverbot.io/1.0/ask", data=body).json()
+        r = requests.post(self._API_ROOT + "ask", data=body).json()
 
         if r["status"] == "success":
             return r["response"]
