@@ -32,6 +32,8 @@ class CleverBot:
         }
 
         r = requests.post(self._API_ROOT + "ask", data=body).json()
+        if not r.ok:
+            return "Cleverbot API appears to be offline. If cleverbot.io is online, something may have gone wrong. Open an issue at https://github.com/ErikBoesen/cleverbot/issues/new if so."
 
         if r["status"] == "success":
             return r["response"]
