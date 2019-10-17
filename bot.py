@@ -6,7 +6,7 @@ import mebots
 from flask import Flask, request
 
 app = Flask(__name__)
-bot = mebots.Bot('your_bot_shortname_here', os.environ.get('BOT_TOKEN'))
+bot = mebots.Bot('cleverbot', os.environ.get('BOT_TOKEN'))
 
 class CleverBot:
     _API_ROOT = "https://cleverbot.io/1.0/"
