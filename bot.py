@@ -2,7 +2,6 @@ import os
 import argparse
 import requests
 import mebots
-import json
 
 from flask import Flask, request
 
@@ -30,8 +29,7 @@ class CleverBot:
             "text": text
         }
 
-        r = requests.post("https://cleverbot.io/1.0/ask", data=body)
-        r = json.loads(r.text)
+        r = requests.post("https://cleverbot.io/1.0/ask", data=body).json()
 
         if r["status"] == "success":
             return r["response"]
