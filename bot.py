@@ -2,6 +2,7 @@ import os
 import argparse
 import requests
 import mebots
+from threading import Thread
 
 from flask import Flask, request
 
@@ -52,6 +53,9 @@ def get_response(text, group_id):
         clients[group_id] = CleverBot(os.environ.get('CLEVERBOT_USER'), os.environ.get('CLEVERBOT_KEY'), group_id)
     return clients[group_id].query(text)
 
+def reply(text, group_id):
+    send(get_response(text, group_id), group_id)
+
 @app.route('/', methods=['POST'])
 def receive():
     data = request.get_json()
@@ -62,7 +66,7 @@ def receive():
     # Prevent self-reply
     if data['sender_type'] != 'bot':
         if data['text'].startswith(PREFIX):
-            send(get_response(data['text'][len(PREFIX):].strip(), group_id), group_id)
+            Thread(target=reply, args=(data['text'][len(PREFIX):].strip(), group_id)).start()
 
     return 'ok', 200
 
