@@ -61,12 +61,12 @@ def reply(text, group_id):
 def receive():
     data = request.get_json()
     group_id = data.get('group_id')
-    print('Incoming message:')
-    print(data)
 
     # Prevent self-reply
     if data['sender_type'] != 'bot':
         if data['text'].startswith(PREFIX):
+            print('Received:')
+            print(data)
             Thread(target=reply, args=(data['text'][len(PREFIX):].strip(), group_id)).start()
 
     return 'ok', 200
