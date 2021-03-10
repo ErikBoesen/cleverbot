@@ -79,7 +79,7 @@ def send(msg, group_id):
         'bot_id': bot.instance(group_id).id,
         'text': msg,
     }
-    r = requests.post(url, data=data)
+    r = requests.post(url, json=data)
 
 
 if __name__ == '__main__':
