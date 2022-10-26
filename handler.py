@@ -5,11 +5,9 @@ import json
 import os
 import argparse
 import requests
-import mebots
 import func_timeout
 
 
-bot = mebots.Bot('cleverbot', os.environ.get('BOT_TOKEN'))
 PREFIX = '.'
 TIMEOUT_ERROR_MESSAGE = 'Cleverbot API appears to be offline. If cleverbot.io is online, something may have gone wrong. Open an issue at https://github.com/ErikBoesen/cleverbot/issues/new if so.'
 

@@ -1,4 +1,2 @@
-gunicorn
-flask
 requests
-mebots
+func_timeout
