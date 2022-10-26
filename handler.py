@@ -3,12 +3,12 @@ sys.path.insert(0, 'vendor')
 
 import json
 import os
-import argparse
 import requests
 import func_timeout
 
 
 PREFIX = '.'
+TIMEOUT = 3
 TIMEOUT_ERROR_MESSAGE = 'Cleverbot API appears to be offline. If cleverbot.io is online, something may have gone wrong. Open an issue at https://github.com/ErikBoesen/cleverbot/issues/new if so.'
 
 class CleverBot:
@@ -55,7 +55,7 @@ def receive(event, context):
         if data['text'].startswith(PREFIX):
             print('Received:')
             print(data)
-            Thread(target=reply, args=(data['text'][len(PREFIX):].strip(), group_id)).start()
+            reply(data['text'][len(PREFIX):].strip(), bot_id)
 
     return {
         'statusCode': 200,
@@ -70,7 +70,7 @@ def get_response(text, group_id):
 
 def reply(text, bot_id):
     try:
-        reply_text = func_timeout.func_timeout(max_wait, lambda: get_response(text, bot_id))
+        reply_text = func_timeout.func_timeout(TIMEOUT, lambda: get_response(text, bot_id))
     except func_timeout.FunctionTimedOut:
         reply_text = TIMEOUT_ERROR_MESSAGE
     send(reply_text, bot_id)
